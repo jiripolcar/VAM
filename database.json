@@ -1,0 +1,11 @@
+{
+    "bundleData": [
+        {
+            "sceneName": "air_conditioning",
+            "dependencies": [
+                "aircon"
+            ],
+            "sceneBundleName": "airconscene"
+        }
+    ]
+}

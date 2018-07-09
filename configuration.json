@@ -1,0 +1,6 @@
+{
+    "decimalDelimiter": ",",
+    "logFolder": "Logs",
+    "logExtension": "csv",
+    "bundlesPath": "Bundles\\"
+}

@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 3137023086
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: aircon
+      Dependencies: {}
+    Info_1:
+      Name: airconscene
+      Dependencies:
+        Dependency_0: aircon

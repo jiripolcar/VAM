@@ -34,3 +34,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# VAM Manuals data
+# ================
+[Aa]ssets/Manuals/
+[Bb]bundles/
+[Ll]ogs/
