@@ -6,19 +6,24 @@ public class LB1Element : MonoBehaviour
 {
 
     [SerializeField] public float bendingAngle = 10;
+    [SerializeField] public float yawAngle = 0;
     [SerializeField] public float defaultAngle = 0;
     [SerializeField] public float startTime = 1;
     [SerializeField] public float endTime = 3;
+
+    Vector3 localForward { get { return Vector3.up; } }
+
+    //return forwardIsY ? Vector3.up: Vector3.forward; } }
 
     internal void Lerp(float stepTime)
     {
         float lerp = (stepTime - startTime) / endTime;
         if (lerp < 0)
-            transform.localEulerAngles = Vector3.right * defaultAngle;
+            transform.localEulerAngles = Vector3.right * defaultAngle + localForward * yawAngle;
         else if (lerp > 1)
-            transform.localEulerAngles = Vector3.right * (bendingAngle - defaultAngle);
+            transform.localEulerAngles = Vector3.right * (bendingAngle - defaultAngle) + localForward * yawAngle;
         else
-            transform.localEulerAngles = Vector3.right * (lerp * bendingAngle - defaultAngle);
+            transform.localEulerAngles = Vector3.right * (lerp * bendingAngle - defaultAngle) + localForward * yawAngle;
     }
 
 #if UNITY_EDITOR
@@ -109,6 +114,8 @@ public class LB1Element : MonoBehaviour
 
         }
     }
+
+    public bool IsScaleOne { get { return (transform.localScale - Vector3.one).sqrMagnitude < 0.01f; } }
 #endif
 
 }

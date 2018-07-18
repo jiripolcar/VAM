@@ -9,6 +9,7 @@ public class LB1ElementEditor : Editor
     private LB1Element _lbe;
     private LB1Element lbe { get { if (!_lbe) _lbe = (LB1Element)target; return _lbe; } }
 
+    
 
 
     public override void OnInspectorGUI()
@@ -20,4 +21,6 @@ public class LB1ElementEditor : Editor
 
 
     }
+
+    
 }
