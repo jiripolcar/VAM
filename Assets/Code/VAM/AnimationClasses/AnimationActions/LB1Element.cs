@@ -115,6 +115,20 @@ public class LB1Element : MonoBehaviour
         }
     }
 
+    public float GetTotalYawRecursive()
+    {
+        Transform parentTransform = transform.parent;
+        if (parentTransform)
+        {
+            LB1Element parent = parentTransform.GetComponent<LB1Element>();
+            if (parent)
+            {
+                return yawAngle + parent.GetTotalYawRecursive();
+            }
+        }
+        return yawAngle;
+    }
+
     public bool IsScaleOne { get { return (transform.localScale - Vector3.one).sqrMagnitude < 0.01f; } }
 #endif
 

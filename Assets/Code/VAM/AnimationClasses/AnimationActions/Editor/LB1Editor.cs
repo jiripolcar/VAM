@@ -44,8 +44,20 @@ public class LB1Editor : Editor
         element.startTime = EditorGUILayout.FloatField(element.startTime);
         element.endTime = EditorGUILayout.FloatField(element.endTime);
         EditorGUILayout.EndHorizontal();
-        element.bendingAngle = EditorGUILayout.FloatField("a: ", element.bendingAngle);
-        element.yawAngle = EditorGUILayout.FloatField("y: ", element.yawAngle);
+
+        EditorGUILayout.BeginHorizontal();
+        element.bendingAngle = EditorGUILayout.FloatField("Bend: ", element.bendingAngle);
+        element.Length = EditorGUILayout.FloatField("Length: ", element.Length);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label("Total yaw:" + element.GetTotalYawRecursive().ToString("0.000"));
+        element.yawAngle = EditorGUILayout.FloatField("Yaw: ", element.yawAngle);
+        EditorGUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Select"))
+            Selection.objects = new GameObject[] { element.gameObject };
+
         if (!element.IsScaleOne)
             GUILayout.Label("WARNING! Element parent's scale is not one! For scaling, scale the joints or bodies!");
         GUILayout.Label("");
