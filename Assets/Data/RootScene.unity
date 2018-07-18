@@ -154,6 +154,7 @@ MonoBehaviour:
     logFolder: Logs
     logExtension: csv
     bundlesPath: Bundles\
+    databaseFile: database.json
   configFile: configuration.json
 --- !u!4 &1663685429
 Transform:
@@ -207,9 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cae8d911ff31f46aa92fe92f49b30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCmdLineArgs:
-  - load
-  - air_conditioning
+  testCmdLineArgs: []
   bundleSceneLoader: {fileID: 1933720124}
 --- !u!4 &1891768848
 Transform:
@@ -255,7 +254,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Database:
     bundleData: []
-  databaseFile: database.json
 --- !u!114 &1933720124
 MonoBehaviour:
   m_ObjectHideFlags: 0

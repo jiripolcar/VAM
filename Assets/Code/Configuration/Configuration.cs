@@ -8,6 +8,7 @@ public class ConfigurationData
     public string logFolder = "Logs";
     public string logExtension = "csv";
     public string bundlesPath = "Bundles\\";
+    public string databaseFile = "database.json";
 
 
     public override string ToString()

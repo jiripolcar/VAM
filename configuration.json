@@ -2,5 +2,6 @@
     "decimalDelimiter": ",",
     "logFolder": "Logs",
     "logExtension": "csv",
-    "bundlesPath": "Bundles\\"
+    "bundlesPath": "Bundles\\",
+    "databaseFile": "database.json"
 }

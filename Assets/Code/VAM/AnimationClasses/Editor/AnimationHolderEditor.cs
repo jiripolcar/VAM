@@ -86,11 +86,21 @@ namespace Animations
             GameObject ap = GameObject.Find(parentName);
             if (!ap)
             {
-                ap = Instantiate((GameObject)AssetDatabase.LoadAssetAtPath("Assets/VAssyMan/Prefabs/AnimationParent.prefab", typeof(GameObject)));
+                ap = Instantiate((GameObject)AssetDatabase.LoadAssetAtPath("Assets/Data/Prefabs/AnimationParent.prefab", typeof(GameObject)));
                 ap.name = parentName;                
                 Setup(GameObject.Find(ahName).GetComponent<AnimationHolder>());
             }
             Selection.activeGameObject = ap;
+
+
+            GameObject utilitiesCarrier = new GameObject("DELETE BEFORE PUBLISHING AS BUNDLE");
+            Configuration foundConfig = GameObject.FindObjectOfType<Configuration>();
+            ConsoleLog.Log foundLogger = GameObject.FindObjectOfType<ConsoleLog.Log>();
+            bool delete = foundConfig && foundLogger;
+            if (!foundConfig) utilitiesCarrier.AddComponent<Configuration>();
+            if (!foundLogger) utilitiesCarrier.AddComponent<ConsoleLog.Log>();
+            if (delete)
+                Destroy(utilitiesCarrier);
         }
 
         [MenuItem("V Assy Man/Initialize lists")]

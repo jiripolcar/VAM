@@ -8,7 +8,7 @@ namespace BundleManagement
     {
         public BundleDatabase Database;
 
-        [SerializeField] private string databaseFile = "database.json";
+        [SerializeField] private string databaseFile { get {return  Configuration.Data.databaseFile; } }
 
         private void Awake()
         {
