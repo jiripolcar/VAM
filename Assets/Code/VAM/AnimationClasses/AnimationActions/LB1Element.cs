@@ -7,8 +7,8 @@ public class LB1Element : MonoBehaviour
     [SerializeField] public float startTime = 1;
     [SerializeField] public float endTime = 3;
 
-    [SerializeField] public Quaternion defaultRotation = new Quaternion(0, 0, 0, 0);
-    [SerializeField] public Quaternion targetRotation = new Quaternion(0, 0, 0, 0);
+    [SerializeField] public Quaternion defaultRotation = Quaternion.identity;
+    [SerializeField] public Quaternion targetRotation = Quaternion.identity;
 
     internal void Lerp(float stepTime)
     {
