@@ -7,7 +7,7 @@ using UnityEngine;
 public class LB1Editor : Editor
 {
     private static float maxStepTime = 10;
-    private float currentStepTime = 0;
+    private static float currentStepTime = 0;
     private static float viewStart = 0;
     private static float viewEnd = 1;
     private LB1 _lb;
@@ -41,6 +41,8 @@ public class LB1Editor : Editor
         {
             if (GUILayout.Button("Turn ON preview", GUILayout.Width(150)))
                 previewMode = true;
+            if (GUILayout.Button("Copy & Collapse", GUILayout.Width(150)))
+                lb.Collapse();
         }
         GUILayout.Space(10);
         for (int i = Mathf.FloorToInt(viewStart); i < Mathf.CeilToInt(viewEnd) && i < lb.lineBenderElements.Count; i++)
@@ -65,20 +67,14 @@ public class LB1Editor : Editor
         element.endTime = EditorGUILayout.FloatField(element.endTime);
         EditorGUILayout.EndHorizontal();
 
-        EditorGUILayout.BeginHorizontal();
-        element.bendingAngle = EditorGUILayout.FloatField("Bend: ", element.bendingAngle);
+
         element.Length = EditorGUILayout.FloatField("Length: ", element.Length);
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Total yaw:" + element.GetTotalYawRecursive().ToString("0.000"));
-        element.yawAngle = EditorGUILayout.FloatField("Yaw: ", element.yawAngle);
-        EditorGUILayout.EndHorizontal();
-
 
         if (!element.IsScaleOne)
             GUILayout.Label("WARNING! Element parent's scale is not one! For scaling, scale the joints or bodies!");
-       GUILayout.Space(10);
+        GUILayout.Space(10);
+
+
     }
 
 

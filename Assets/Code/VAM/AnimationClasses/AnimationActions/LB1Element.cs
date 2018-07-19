@@ -4,51 +4,58 @@ using UnityEngine;
 
 public class LB1Element : MonoBehaviour
 {
-
-    [SerializeField] public float bendingAngle = 10;
-    [SerializeField] public float yawAngle = 0;
-    [SerializeField] public float defaultAngle = 0;
     [SerializeField] public float startTime = 1;
     [SerializeField] public float endTime = 3;
 
-    Vector3 localForward { get { return Vector3.up; } }
-
-    //return forwardIsY ? Vector3.up: Vector3.forward; } }
+    [SerializeField] public Quaternion defaultRotation = new Quaternion(0, 0, 0, 0);
+    [SerializeField] public Quaternion targetRotation = new Quaternion(0, 0, 0, 0);
 
     internal void Lerp(float stepTime)
     {
         float lerp = (stepTime - startTime) / endTime;
         if (lerp < 0)
-            transform.localEulerAngles = Vector3.right * defaultAngle + localForward * yawAngle;
+            transform.localRotation = defaultRotation;
         else if (lerp > 1)
-            transform.localEulerAngles = Vector3.right * (bendingAngle - defaultAngle) + localForward * yawAngle;
+            transform.localRotation = targetRotation;
         else
-            transform.localEulerAngles = Vector3.right * (lerp * bendingAngle - defaultAngle) + localForward * yawAngle;
+            transform.localRotation = Quaternion.Lerp(defaultRotation, targetRotation, lerp);
+
     }
 
+
+
 #if UNITY_EDITOR
-    public GameObject prefab;
+    [Space(10)]
     public GameObject joint;
     public GameObject segment;
     public float segmentLengthInDefaultScale = 1;
-    public float segmentCenterOffset = 0.5f;
-    public bool forwardIsY;
-    public bool autoRepositionChildSegments = true;
+
     public List<LB1Element> childSegments = new List<LB1Element>();
+
+    public void SaveDefaultRotation()
+    {
+        defaultRotation = transform.localRotation;
+    }
+
+
+
+    public void ComputeTargetRotationAndLength(GameObject targetToConnect, bool isTarget)
+    {
+        transform.LookAt(targetToConnect.transform);
+        Length = (transform.position - targetToConnect.transform.position).magnitude;
+        if (isTarget)
+            targetRotation = transform.localRotation;
+        else
+            defaultRotation = transform.localRotation;
+    }
 
     public GameObject AppendSegment()
     {
         GameObject newSegment = GameObject.Instantiate(gameObject);
-        newSegment.transform.position =
-            transform.position + Length *
-            (
-                forwardIsY
-                ?
-                    segment.transform.up
-                :
-                    segment.transform.forward
-            );
+        //newSegment.transform.position = transform.position + Length * transform.forward;
         newSegment.transform.SetParent(transform);
+        newSegment.transform.localPosition = Vector3.forward * Length;
+        newSegment.transform.localEulerAngles = Vector3.zero;
         childSegments.Add(newSegment.GetComponent<LB1Element>());
 
         int attempts = 0;
@@ -81,26 +88,15 @@ public class LB1Element : MonoBehaviour
     {
         get
         {
-            return (forwardIsY ? segment.transform.localScale.y : segment.transform.localScale.z) * segmentLengthInDefaultScale;
+            return segment.transform.localScale.z * segmentLengthInDefaultScale;
         }
         set
         {
-            Vector3 spos = segment.transform.localPosition;
-            Vector3 ls = segment.transform.localScale;
-            if (forwardIsY)
-            {
-                ls.y = value / segmentLengthInDefaultScale;
 
-            }
-            else
-            {
-                ls.z = value / segmentLengthInDefaultScale;
-            }
+            Vector3 ls = segment.transform.localScale;
+            ls.z = value / segmentLengthInDefaultScale;
             segment.transform.localScale = ls;
-            segment.transform.localPosition = spos;
-            segment.transform.position = transform.position + transform.forward * Length / segmentLengthInDefaultScale * segmentCenterOffset;
-            if (autoRepositionChildSegments)
-                RepositionChildSegments();
+            RepositionChildSegments();
         }
     }
 
@@ -115,19 +111,6 @@ public class LB1Element : MonoBehaviour
         }
     }
 
-    public float GetTotalYawRecursive()
-    {
-        Transform parentTransform = transform.parent;
-        if (parentTransform)
-        {
-            LB1Element parent = parentTransform.GetComponent<LB1Element>();
-            if (parent)
-            {
-                return yawAngle + parent.GetTotalYawRecursive();
-            }
-        }
-        return yawAngle;
-    }
 
     public bool IsScaleOne { get { return (transform.localScale - Vector3.one).sqrMagnitude < 0.01f; } }
 #endif
