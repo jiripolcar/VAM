@@ -6,40 +6,60 @@ using UnityEngine;
 [CustomEditor(typeof(LB1))]
 public class LB1Editor : Editor
 {
-    private float stepTime = 10;
+    private static float maxStepTime = 10;
     private float currentStepTime = 0;
+    private static float viewStart = 0;
+    private static float viewEnd = 1;
     private LB1 _lb;
     private LB1 lb { get { if (!_lb) _lb = (LB1)target; return _lb; } }
-    private bool previewMode = false;
+    private static bool previewMode = false;
 
     public override void OnInspectorGUI()
-    {        
+    {
+        if (GUILayout.Button("Fill list", GUILayout.Width(150))) lb.FillLineBenderElementsList();
         base.OnInspectorGUI();
-        GUILayout.Label("Editor mode begin:");
-        stepTime = EditorGUILayout.FloatField("Step time: ", stepTime);
+        GUILayout.Space(10);        
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label("View elements:");
+        if (GUILayout.Button("ALL",GUILayout.Width(50))) viewEnd = lb.lineBenderElements.Count;
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.MinMaxSlider(ref viewStart, ref viewEnd, 0, lb.lineBenderElements.Count);
+
+        GUILayout.Space(10);
+        maxStepTime = EditorGUILayout.FloatField("Step time: ", maxStepTime);
+        GUILayout.Space(10);
         if (previewMode)
         {
-            if (GUILayout.Button("Turn OFF preview"))
+            if (GUILayout.Button("Turn OFF preview", GUILayout.Width(150)))
                 previewMode = false;
             GUILayout.Label("Preview time:");
-            currentStepTime = GUILayout.HorizontalSlider(currentStepTime, 0, stepTime);
+            currentStepTime = EditorGUILayout.FloatField("", currentStepTime);
+            currentStepTime = GUILayout.HorizontalSlider(currentStepTime, 0, maxStepTime);
             lb.SetTime(currentStepTime);
         }
         else
         {
-            if (GUILayout.Button("Turn ON preview"))
+            if (GUILayout.Button("Turn ON preview", GUILayout.Width(150)))
                 previewMode = true;
         }
-           foreach (LB1Element element in lb.lineBenderElements)
-            if (element != null) DrawLB1Element(element);
-        if (GUILayout.Button("Fill list")) lb.FillLineBenderElementsList();
+        GUILayout.Space(10);
+        for (int i = Mathf.FloorToInt(viewStart); i < Mathf.CeilToInt(viewEnd) && i < lb.lineBenderElements.Count; i++)
+            //foreach (LB1Element element in lb.lineBenderElements)
+            if (lb.lineBenderElements[i] != null) DrawLB1Element(lb.lineBenderElements[i]);
         
+
     }
 
     private void DrawLB1Element(LB1Element element)
     {
+        GUILayout.Space(10);
+        EditorGUILayout.BeginHorizontal();
         GUILayout.Label("Element: " + element.name);
-        EditorGUILayout.MinMaxSlider(ref element.startTime, ref element.endTime, 0, stepTime);
+        if (GUILayout.Button("Select", GUILayout.Width(50)))
+            Selection.objects = new GameObject[] { element.gameObject };
+
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.MinMaxSlider(ref element.startTime, ref element.endTime, 0, maxStepTime);
         EditorGUILayout.BeginHorizontal();
         element.startTime = EditorGUILayout.FloatField(element.startTime);
         element.endTime = EditorGUILayout.FloatField(element.endTime);
@@ -55,14 +75,11 @@ public class LB1Editor : Editor
         element.yawAngle = EditorGUILayout.FloatField("Yaw: ", element.yawAngle);
         EditorGUILayout.EndHorizontal();
 
-        if (GUILayout.Button("Select"))
-            Selection.objects = new GameObject[] { element.gameObject };
 
         if (!element.IsScaleOne)
             GUILayout.Label("WARNING! Element parent's scale is not one! For scaling, scale the joints or bodies!");
-        GUILayout.Label("");
-
+       GUILayout.Space(10);
     }
 
-    
+
 }

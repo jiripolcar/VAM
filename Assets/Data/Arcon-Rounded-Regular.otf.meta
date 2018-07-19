@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f3010cdfa903c71409cda049fdb703ab
+timeCreated: 1531981102
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Arcon
+  fontNames:
+  - Arcon
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 43ce3717a9fa57a40afada49fd8d4f49, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
