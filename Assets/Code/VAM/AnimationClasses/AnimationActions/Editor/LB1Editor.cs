@@ -16,6 +16,7 @@ public class LB1Editor : Editor
 
     public override void OnInspectorGUI()
     {
+        GUILayout.TextArea("Do not forget to fill list before trying.");
         if (GUILayout.Button("Fill list", GUILayout.Width(150))) lb.FillLineBenderElementsList();
         base.OnInspectorGUI();
         GUILayout.Space(10);        
@@ -30,18 +31,19 @@ public class LB1Editor : Editor
         GUILayout.Space(10);
         if (previewMode)
         {
-            if (GUILayout.Button("Turn OFF preview", GUILayout.Width(150)))
+            if (GUILayout.Button("Turn OFF preview"))
                 previewMode = false;
             GUILayout.Label("Preview time:");
             currentStepTime = EditorGUILayout.FloatField("", currentStepTime);
-            currentStepTime = GUILayout.HorizontalSlider(currentStepTime, 0, maxStepTime);
+            currentStepTime = GUILayout.HorizontalSlider(currentStepTime, 0, maxStepTime);            
             lb.SetTime(currentStepTime);
         }
         else
         {
             if (GUILayout.Button("Turn ON preview", GUILayout.Width(150)))
                 previewMode = true;
-            if (GUILayout.Button("Copy & Collapse", GUILayout.Width(150)))
+            GUILayout.TextArea("Once done, you can make a dead copy of this (in any step time).");
+            if (GUILayout.Button("Copy & Collapse"))
                 lb.Collapse();
         }
         GUILayout.Space(10);
