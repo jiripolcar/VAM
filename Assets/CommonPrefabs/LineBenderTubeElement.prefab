@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4931364020893184}
   - component: {fileID: 33003650439403148}
-  - component: {fileID: 136580206675545442}
   - component: {fileID: 23898190049771720}
   m_Layer: 0
   m_Name: Segment
@@ -39,7 +38,7 @@ GameObject:
   - component: {fileID: 4227079377021720}
   - component: {fileID: 114743561492970824}
   m_Layer: 0
-  m_Name: TubeElement
+  m_Name: LineBenderTubeElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +68,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4659576903149994}
   - component: {fileID: 33105519474984300}
-  - component: {fileID: 135591702131016090}
   - component: {fileID: 23155365535473758}
   m_Layer: 0
   m_Name: Joint
@@ -85,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1078394751029294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.25, y: 9.69, z: -0.95}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4659576903149994}
@@ -100,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1349875911460746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.9999992}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4931364020893184}
@@ -115,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 1437284546391124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227079377021720}
   m_RootOrder: 0
@@ -127,8 +125,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1022145641732644}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 2.9999993}
-  m_LocalScale: {x: 3, y: 5, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4336209034968490}
   m_RootOrder: 0
@@ -222,38 +220,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e11755c54f3ea4fb5ad1e4caf929d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bendingAngle: 0
-  yawAngle: 0
-  defaultAngle: 0
   startTime: 0
   endTime: 1.9999998
-  prefab: {fileID: 1078394751029294}
+  defaultRotation: {x: 0, y: 0, z: 0, w: 1}
+  targetRotation: {x: 0, y: 0, z: 0, w: 1}
   joint: {fileID: 1437284546391124}
   segment: {fileID: 1349875911460746}
   segmentLengthInDefaultScale: 2
   childSegments: []
---- !u!135 &135591702131016090
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1437284546391124}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136580206675545442
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1022145641732644}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
