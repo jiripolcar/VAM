@@ -12,7 +12,7 @@ public class LB1Element : MonoBehaviour
 
     internal void Lerp(float stepTime)
     {
-        float lerp = (stepTime - startTime) / endTime;
+        float lerp = (stepTime - startTime) / (endTime - startTime);
         if (lerp < 0)
             transform.localRotation = defaultRotation;
         else if (lerp > 1)

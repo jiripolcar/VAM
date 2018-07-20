@@ -30,32 +30,65 @@ public class LB1 : AnimationAction
                 t.GetComponent<LB1Element>().FindInChildren(lineBenderElements);
     }
 
+
+
     public void Collapse()
     {
-        GameObject collapsed = GameObject.Instantiate(gameObject);
-        collapsed.name = "Collapsed " + name;
-        DestroyImmediate(collapsed.GetComponent<LB1>());
+        GameObject collapsed = new GameObject("Collapsed " + name);
+        Transform t = collapsed.transform;
+        lineBenderElements.ForEach((lb) => {
+            GameObject newJoint = Instantiate(lb.joint);
+            newJoint.name = lb.joint.name;
+            newJoint.transform.parent = t;
+            newJoint.transform.position = lb.joint.transform.position;
+            newJoint.transform.rotation = lb.joint.transform.rotation;
+            GameObject newSegment = Instantiate(lb.segment);
+            newSegment.name = lb.segment.name;
+            newSegment.transform.parent = t;
+            newSegment.transform.position = lb.segment.transform.position;
+            newSegment.transform.rotation = lb.segment.transform.rotation;
+        });
+    }
 
-        Transform parent = collapsed.transform;
-
-        foreach(Transform t in parent)
-        {
-            LB1Element lb1e = t.GetComponent<LB1Element>();
-            if (lb1e!=null)
-            {
-                CollapseLB1Element(lb1e, parent);
-            }
-        }
-
+  /*  private List<LB1Element> LB1EsInChildren(LB1Element lb1e)
+    {
+        List<LB1Element> l = new List<LB1Element>();
+        foreach (Transform t in transform)
+            if (t.GetComponent<LB1Element>())
+                l.Add(t.GetComponent<LB1Element>());
+        return l;
     }
 
     private void CollapseLB1Element(LB1Element e, Transform newParent)
     {
         e.joint.transform.parent = newParent;
         e.segment.transform.parent = newParent;
-        e.childSegments.ForEach((c) => CollapseLB1Element(c, newParent));
-        DestroyImmediate(e.gameObject);
+        //e.childSegments.ForEach((c) => CollapseLB1Element(c, newParent));
+        e.childSegments.ForEach((c) => c.transform.parent = newParent);
+       // DestroyImmediate(e.gameObject);
+    }*/
+
+    public void MultipleSet(int viewStart, int viewEnd, float startTime, float endTime)
+    {
+        for (int i = viewStart; i < viewEnd && i < lineBenderElements.Count; i++)
+        {
+            lineBenderElements[i].startTime = startTime;
+            lineBenderElements[i].endTime = endTime;
+        }
+
     }
+
+    public void MultipleSetMaterial(int viewStart, int viewEnd, Material material)
+    {
+        for (int i = viewStart; i < viewEnd && i < lineBenderElements.Count; i++)
+        {
+            List<Renderer> rends = new List<Renderer>();
+            rends.AddRange(lineBenderElements[i].segment.GetComponentsInChildren<Renderer>());
+            rends.AddRange(lineBenderElements[i].joint.GetComponentsInChildren<Renderer>());
+            rends.ForEach((r) => r.material = material);
+        }
+    }
+
 
 
 #endif
