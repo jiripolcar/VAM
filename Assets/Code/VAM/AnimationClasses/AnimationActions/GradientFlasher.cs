@@ -53,13 +53,14 @@ public class GradientFlasher : AnimationAction
 
     public override void SetTime(float stepTime)
     {
-        float lerp = (stepTime - startTime) / endTime;
-        print("Flasher time: " + stepTime + " lerp: " + lerp);
+        float lerp = (stepTime - startTime) / (endTime - startTime);
         if (lerp > 0 && lerp < 1)
             SetColors(gradient.Evaluate(lerp));
         else
             SetDefaultColors();
     }
+
+
 
     public override void Default()
     {

@@ -22,6 +22,7 @@ namespace Animations
     {
         public AnimationElementType animationElementType;
         public bool positionOnReset = true;
+        public bool toInitialPositionOnUnhide = false;
         public float unhideDelay = 0.5f;
         public float animationStartDelay = 1;
         public float animationLength = 3;
@@ -45,7 +46,13 @@ namespace Animations
                 if (_hidden)
                     animationElementObjects.HideAll();
                 else
+                {
                     animationElementObjects.UnhideAll();
+                    if (toInitialPositionOnUnhide)
+                    {
+                        animationElementObjects.ResetAll();
+                    }
+                }
             }
         }
 
@@ -85,40 +92,40 @@ namespace Animations
 
         #region old
 
-    /*    internal IEnumerator PlayElementOLD(uint stepNumber)
-        {
-            yield return 0;
-            if (positionOnReset)
-                animationElementObjects.ResetAll();
-            foreach (AnimationElementObject aeo in animationElementObjects)
-                aeo.obj.ResetPosition();
-            while (step.stepTime < unhideDelay)
-                yield return 0;
-
-            animationElementObjects.UnhideAll();
-            foreach (AnimationElementObject aeo in animationElementObjects)
-                aeo.obj.Unhide();
-
-            float lastTime = step.stepTime - animationStartDelay;
-            while (stepNumber == holder.stepsPlayed)
+        /*    internal IEnumerator PlayElementOLD(uint stepNumber)
             {
-                float t = step.stepTime - animationStartDelay;
-                if (lastTime > t || t > animationLength)
-                    break;
-                lastTime = t;
-                float dT = step.deltaTime;
-                float lerp = t / animationLength;
-
-                if (t > 0 && lerp < 1)
-                    foreach (AnimationElementObject o in animationElementObjects)
-                        Animate(o, t, lerp, dT);
-
                 yield return 0;
-            }
-            lastTime = step.stepTime - animationStartDelay - animationLength;
+                if (positionOnReset)
+                    animationElementObjects.ResetAll();
+                foreach (AnimationElementObject aeo in animationElementObjects)
+                    aeo.obj.ResetPosition();
+                while (step.stepTime < unhideDelay)
+                    yield return 0;
 
-            animationElementObjects.HideAll();
-        }*/
+                animationElementObjects.UnhideAll();
+                foreach (AnimationElementObject aeo in animationElementObjects)
+                    aeo.obj.Unhide();
+
+                float lastTime = step.stepTime - animationStartDelay;
+                while (stepNumber == holder.stepsPlayed)
+                {
+                    float t = step.stepTime - animationStartDelay;
+                    if (lastTime > t || t > animationLength)
+                        break;
+                    lastTime = t;
+                    float dT = step.deltaTime;
+                    float lerp = t / animationLength;
+
+                    if (t > 0 && lerp < 1)
+                        foreach (AnimationElementObject o in animationElementObjects)
+                            Animate(o, t, lerp, dT);
+
+                    yield return 0;
+                }
+                lastTime = step.stepTime - animationStartDelay - animationLength;
+
+                animationElementObjects.HideAll();
+            }*/
         #endregion
 
         internal virtual void Animate(AnimationElementObject o, float time, float lerp, float delta)

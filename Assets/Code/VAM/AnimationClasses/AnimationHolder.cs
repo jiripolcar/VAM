@@ -8,7 +8,9 @@ namespace Animations
     public partial class AnimationHolder : MonoBehaviour
     {
         [SerializeField] private int playingStepID = -1;
-        public int PlayingStepID { get { return playingStepID; }
+        public int PlayingStepID
+        {
+            get { return playingStepID; }
             set
             {
                 playingStepID = value;
@@ -24,9 +26,9 @@ namespace Animations
 
         [SerializeField] internal AnimationCarrier animationCarrier;
         [SerializeField] private List<AnimationStep> animationSteps;
-//        [SerializeField] internal uint stepsPlayed = 0;
+        //        [SerializeField] internal uint stepsPlayed = 0;
         private float currentStepTime = 0;
-        
+
         public int GetStepCount()
         {
             return animationSteps.Count;
@@ -59,7 +61,7 @@ namespace Animations
             {
 
                 yield return StartCoroutine(animationSteps[PlayingStepID].PlayStep(PlayingStepID));
-                
+
             }
             isInAnimationLoop = false;
         }
@@ -75,34 +77,40 @@ namespace Animations
         }
 
         private bool positioningCamera = false;
+        Vector3 posCamEndPos;
+        Vector3 posCamEndEA;
+        Vector3 posCamStartPos;
+        Vector3 posCamStartEA;
+        float posCamLerp = 0;
 
         private IEnumerator PositioningCamera(AnimationStep step, float time)
         {
+            posCamEndPos = step.cameraPosition.position;
+            posCamEndEA = step.cameraPosition.eulerAngles;
+            posCamStartPos = cam.transform.localPosition;
+            posCamStartEA = cam.transform.localEulerAngles;
+            posCamLerp = 0;
             if (positioningCamera)
                 yield break;
             positioningCamera = true;
-            Vector3 endPos = step.cameraPosition.position;
-            Vector3 endEA = step.cameraPosition.eulerAngles;
-            Vector3 startPos = cam.transform.localPosition;
-            Vector3 startEA = cam.transform.localEulerAngles;
+
 
             if (time > 0)
-            {
-                float lerp = 0;
-                while (lerp < 1 && positioningCamera)
+            {                
+                while (posCamLerp < 1 && positioningCamera)
                 {
-                    lerp += Time.deltaTime / time;
-                    cam.transform.localPosition = Vector3.Lerp(startPos, endPos, lerp);
-                    cam.transform.localEulerAngles = Vector3.Lerp(startEA, endEA, lerp);
+                    posCamLerp += Time.deltaTime / time;
+                    cam.transform.localPosition = Vector3.Lerp(posCamStartPos, posCamEndPos, posCamLerp);
+                    cam.transform.localEulerAngles = Vector3.Lerp(posCamStartEA, posCamEndEA, posCamLerp);
                     yield return 0;
                 }
             }
-            cam.transform.localPosition = endPos;
-            cam.transform.localEulerAngles = endEA;
+            cam.transform.localPosition = posCamEndPos;
+            cam.transform.localEulerAngles = posCamEndEA;
             positioningCamera = false;
         }
 
-  
+
 
         public List<string> GetStepsNames()
         {

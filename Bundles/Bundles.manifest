@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3137023086
+CRC: 1020906169
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,3 +9,10 @@ AssetBundleManifest:
       Name: airconscene
       Dependencies:
         Dependency_0: aircon
+    Info_2:
+      Name: distributor
+      Dependencies: {}
+    Info_3:
+      Name: distributorscene
+      Dependencies:
+        Dependency_0: distributor

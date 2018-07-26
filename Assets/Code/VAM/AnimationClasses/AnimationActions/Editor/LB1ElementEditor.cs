@@ -18,21 +18,33 @@ public class LB1ElementEditor : Editor
         lbe.Length = EditorGUILayout.DelayedFloatField("Length: ", lbe.Length);
         if (GUILayout.Button("Reposition Child Segments")) lbe.RepositionChildSegments();
 
-        EditorGUILayout.BeginHorizontal();
+        
         if (GUILayout.Button("Append new segment")) Selection.objects = new GameObject[] { lbe.AppendSegment() };
+
+        EditorGUILayout.BeginHorizontal();
         {
-            EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Set FINAL"))
             {
-                lbe.transform.parent.gameObject.GetComponent<LB1Element>().ComputeTargetRotationAndLength(lbe.gameObject, true);
+                lbe.targetRotation = lbe.transform.localRotation;
             }
             if (GUILayout.Button("Set DEFAULT"))
             {
-                lbe.transform.parent.gameObject.GetComponent<LB1Element>().ComputeTargetRotationAndLength(lbe.gameObject, false);
+                lbe.defaultRotation = lbe.transform.localRotation;
             }
-            EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Parent look at, Set FINAL"))
+        {
+            lbe.transform.parent.gameObject.GetComponent<LB1Element>().ComputeTargetRotationAndLength(lbe.gameObject, true);
+        }
+        if (GUILayout.Button("Parent look at, Set DEFAULT"))
+        {
+            lbe.transform.parent.gameObject.GetComponent<LB1Element>().ComputeTargetRotationAndLength(lbe.gameObject, false);
+        }
+        EditorGUILayout.EndHorizontal();
+
         EditorGUILayout.Space();
         GUILayout.TextArea("DO NOT FORGET TO SET MATERIAL BEFORE STARTING!");
         GUILayout.TextArea("Usage: Append new segment, position it. Then, click Set FINAL, which will set the parent's length and ending rotation.");

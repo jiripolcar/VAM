@@ -111,9 +111,9 @@ namespace Animations
             }
             else
             {
-                if (GUILayout.Button("Instantiate Animation Element Objects")) e.ReInstantiate();
-                if (GUILayout.Button("Set to start")) e.SetLerp(0);
-                if (GUILayout.Button("Set to end")) e.SetLerp(1);
+                if (GUILayout.Button("Instantiate & preview Init")) e.ReInstantiate();
+                if (GUILayout.Button("Preview start")) e.SetLerp(0);
+                if (GUILayout.Button("Preview end")) e.SetLerp(1);
             }
             EditorGUILayout.LabelField("");
             EditorGUILayout.LabelField("Element visibility: S=" + e.unhideDelay.ToString("0.0") + " E= " + e.hideDelay.ToString("0.0"));

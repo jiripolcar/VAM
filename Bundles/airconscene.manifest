@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 629100858
+CRC: 3375210153
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e494dd4ca5b0a59cd911bf051c17ebdd
+    Hash: 9fa69199ca1bcdfabff7a598b9c32806
   TypeTreeHash:
     serializedVersion: 2
     Hash: 31d6cfe0d16ae931b73c59d7e0c089c0
 HashAppended: 0
 ClassTypes: []
 Assets:
-- Assets/Manuals/Scenes/air_conditioning.unity
+- Assets/Manuals/Daikin/AirCon/air_conditioning.unity
 Dependencies:
-- C:/Users/User/Documents/UnityProjects/VirtualAssemblyManual/Bundles/aircon
+- D:/Projects/VAM/VAM/Bundles/aircon
