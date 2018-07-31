@@ -9,8 +9,6 @@ public class GradientFlasher : AnimationAction
 
     [SerializeField] public List<Material> materials;
     [SerializeField] private List<Color> defaultColors;
-    [SerializeField] private float startTime = 1;
-    [SerializeField] private float endTime = 3;
     [SerializeField] private GameObject parent;
 
     private void Reset()
@@ -51,9 +49,8 @@ public class GradientFlasher : AnimationAction
         }
     }
 
-    public override void SetTime(float stepTime)
+    public override void SetLerp(float lerp)
     {
-        float lerp = (stepTime - startTime) / (endTime - startTime);
         if (lerp > 0 && lerp < 1)
             SetColors(gradient.Evaluate(lerp));
         else
@@ -62,8 +59,8 @@ public class GradientFlasher : AnimationAction
 
 
 
-    public override void Default()
+    /*public override void Default()
     {
         SetDefaultColors();
-    }
+    }*/
 }

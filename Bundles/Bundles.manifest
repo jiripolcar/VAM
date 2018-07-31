@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 1020906169
+CRC: 1508286290
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -16,3 +16,11 @@ AssetBundleManifest:
       Name: distributorscene
       Dependencies:
         Dependency_0: distributor
+    Info_4:
+      Name: ynf_dependencies
+      Dependencies: {}
+    Info_5:
+      Name: ynf_scene
+      Dependencies:
+        Dependency_0: aircon
+        Dependency_1: ynf_dependencies

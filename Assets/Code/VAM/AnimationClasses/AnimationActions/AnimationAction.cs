@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AnimationAction : MonoBehaviour
 {
-    public virtual void SetTime(float stepTime) { }
-    public virtual void Default() { }
+    public virtual void SetLerp(float lerp) { }
+    public virtual void Default() { SetLerp(0); }
+
 
     /*public virtual void Activate(float param1 = 0) { }
     public virtual void Deactivate() { }

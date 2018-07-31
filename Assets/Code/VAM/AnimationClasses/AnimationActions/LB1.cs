@@ -6,15 +6,15 @@ public class LB1 : AnimationAction
 {
     [SerializeField] public List<LB1Element> lineBenderElements;
 
-    public override void SetTime(float stepTime)
+    public override void SetLerp(float lerp)
     {
-        lineBenderElements.ForEach((element) => element.Lerp(stepTime));
+        lineBenderElements.ForEach((element) => element.Lerp(lerp));
     }
 
-    public override void Default()
+    /*public override void Default()
     {
         lineBenderElements.ForEach((element) => element.transform.localRotation = element.defaultRotation);
-    }
+    }*/
 
     private void Reset()
     {

@@ -10,16 +10,14 @@ public class LB1Element : MonoBehaviour
     [SerializeField] public Quaternion defaultRotation = Quaternion.identity;
     [SerializeField] public Quaternion targetRotation = Quaternion.identity;
 
-    internal void Lerp(float stepTime)
-    {
-        float lerp = (stepTime - startTime) / (endTime - startTime);
+    internal void Lerp(float lerp)
+    {        
         if (lerp < 0)
             transform.localRotation = defaultRotation;
         else if (lerp > 1)
             transform.localRotation = targetRotation;
         else
             transform.localRotation = Quaternion.Lerp(defaultRotation, targetRotation, lerp);
-
     }
 
 

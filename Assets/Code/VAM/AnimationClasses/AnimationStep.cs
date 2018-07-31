@@ -16,7 +16,7 @@ namespace Animations
         public float stepLength = 5;
         public StepEndAction stepEnd;
 
-        [SerializeField] private List<AnimationElement> animationElements = new List<AnimationElement>();
+        [SerializeField] public List<AnimationElement> animationElements = new List<AnimationElement>();
         [SerializeField] internal AnimationHolder holder;
 
         [SerializeField] private List<AnimationObject> staticAnimationObjectsAR = new List<AnimationObject>();
@@ -169,6 +169,10 @@ namespace Animations
             }
         }
 
+        public void Animate(float time)
+        {
+            animationElements.ForEach((ae) => ae.AnimateElement(time));
+        }
    
 
 #endif

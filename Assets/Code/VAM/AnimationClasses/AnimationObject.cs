@@ -51,7 +51,7 @@ namespace Animations
 
         internal void Hide()
         {
-            _instance.transform.parent = animationHolder.hiddenObjectsParent.transform;
+            _instance.transform.SetParent(animationHolder.hiddenObjectsParent.transform);
             /*if (Application.isPlaying)
                 GameObject.Destroy(_instance);
             else
@@ -61,7 +61,7 @@ namespace Animations
 
         internal void Unhide()
         {
-            _instance.transform.parent = rootParent.transform;
+            _instance.transform.SetParent(rootParent.transform);
         }
 
         private void ApplyLocal()

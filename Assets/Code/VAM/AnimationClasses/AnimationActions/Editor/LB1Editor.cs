@@ -65,7 +65,7 @@ public class LB1Editor : Editor
             GUILayout.Label("Preview time:");
             currentStepTime = EditorGUILayout.FloatField("", currentStepTime);
             currentStepTime = GUILayout.HorizontalSlider(currentStepTime, 0, maxStepTime);
-            lb.SetTime(currentStepTime);
+            lb.SetLerp(currentStepTime);
         }
         else
         {

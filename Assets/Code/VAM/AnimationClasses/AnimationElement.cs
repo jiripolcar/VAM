@@ -11,8 +11,10 @@ namespace Animations
         Translate = 10,         // local = lerp(aeo.par[0] > aeo.par[1])
         TranslateLocal = 11,    // local = lerp(aeo.start > aeo.start + this.local)
         TranslateUp = 12,       // world += this.worldUp * deltaTime * this.par[0]                                
-        Rotate = 20,            // rotate around (this.worldUp x this.position, this.par[0] * deltaTime)
+        Rotate = 20,            // rotate around (this.worldUp x this.position, this.par[0] * deltaTime) ... par[0] = angular speed
         RotateLocal = 21,        // rotate around (this.worldUp x aeo.position, this.par[0] * deltaTime)
+        RotateAdvanced = 22,    // rotate around (this.worldUp x this.position, aeo.par[0] + this.par[0] * lerp) ... par[0] = final angle
+        RotateLocalAdvanced = 23,    // rotate around (this.worldUp x this.position, aeo.par[0] + this.par[0] * lerp) ... par[0] = final angle
         Screw                   // rotate around (aeo.worldup x aeo.position, this.par[0] * deltaTime)
                                 // local = lerp (aeo.start - aeo.up*length*this.par[1] > aeo.start)
 
@@ -28,11 +30,12 @@ namespace Animations
         public float animationLength = 3;
         public float hideDelay = 5;
         public float[] parameters;
-        public List<AnimationAction> animationActions = new List<AnimationAction>();
+        
 
         [SerializeField] private List<AnimationElementObject> animationElementObjects;
         [SerializeField] private AnimationStep step;
         [SerializeField] private AnimationHolder holder;
+        [SerializeField] public List<AnimationActionRunner> animationActions = new List<AnimationActionRunner>();
 
         #region prekopani
 
@@ -56,6 +59,8 @@ namespace Animations
             }
         }
 
+        private bool hasFinishedLerping = false;
+
         internal void ResetElement()
         {
             if (positionOnReset)
@@ -74,9 +79,17 @@ namespace Animations
             {
                 float lerp = (time - animationStartDelay) / animationLength;
                 if (animationActions.Count > 0)
-                    animationActions.ForEach((aa) => aa.SetTime(time));
+                    animationActions.ForEach((aar) => aar.SetTime(time));
                 if (lerp >= 0 && lerp <= 1)
+                {
                     animationElementObjects.ForEach((aeo) => Animate(aeo, time, lerp, step.deltaTime));
+                    hasFinishedLerping = false;
+                }
+                else if (lerp > 1 && !hasFinishedLerping)
+                {
+                    animationElementObjects.ForEach((aeo) => Animate(aeo, animationStartDelay + animationLength, lerp, step.deltaTime));
+                    hasFinishedLerping = true;
+                }
             }
 
 
@@ -85,7 +98,7 @@ namespace Animations
         internal void EndElement()
         {
             Hidden = true;
-            animationActions.ForEach((aa) => aa.Default());
+            animationActions.ForEach((aar) => aar.animationAction.Default());
         }
 
         #endregion
@@ -162,6 +175,16 @@ namespace Animations
                     t.RotateAround(transform.position, transform.up, parameters[0] * delta);
                     break;
 
+                case AnimationElementType.RotateAdvanced:
+                    t.localEulerAngles = o.obj.eulerAngles;
+                    t.RotateAround(transform.position, transform.up, parameters[0] * lerp);
+                    break;
+
+                case AnimationElementType.RotateLocalAdvanced:
+                    t.localEulerAngles = o.obj.eulerAngles;
+                    t.RotateAround(o.transform.position, transform.up, parameters[0] * lerp);
+                    break;
+
                 case AnimationElementType.RotateLocal:
                     t.RotateAround(t.position, transform.up, parameters[0] * delta);
                     break;
@@ -206,6 +229,7 @@ namespace Animations
                     return 0;
                 case AnimationElementType.Rotate:
                 case AnimationElementType.RotateLocal:
+                case AnimationElementType.RotateAdvanced:
                 case AnimationElementType.TranslateUp:
                     return 1;
                 case AnimationElementType.Screw:
@@ -222,6 +246,7 @@ namespace Animations
                 case AnimationElementType.Empty:
                 case AnimationElementType.Rotate:
                 case AnimationElementType.RotateLocal:
+                case AnimationElementType.RotateAdvanced:
                 case AnimationElementType.TranslateUp:
                     return 0;
                 case AnimationElementType.TranslateLocal:
@@ -336,6 +361,15 @@ namespace Animations
                 aeo.parameters[0] = aeo.obj.instance.transform.localPosition;
             }
         }
+        public void RotateAdvanced_SetStart()
+        {
+            foreach (AnimationElementObject aeo in animationElementObjects)
+            {
+                if (aeo.parameters == null || aeo.parameters.Length < 1)
+                    aeo.parameters = new Vector3[1];
+                aeo.parameters[0] = aeo.obj.instance.transform.localEulerAngles;
+            }
+        }
         public void Translate_SetEnd()
         {
             foreach (AnimationElementObject aeo in animationElementObjects)
@@ -360,7 +394,6 @@ namespace Animations
             foreach (AnimationElementObject aeo in animationElementObjects)
             {
                 aeo.parameters[0] += p;
-
             }
         }
 
