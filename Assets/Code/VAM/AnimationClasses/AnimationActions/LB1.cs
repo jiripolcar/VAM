@@ -72,8 +72,8 @@ public class LB1 : AnimationAction
     {
         for (int i = viewStart; i < viewEnd && i < lineBenderElements.Count; i++)
         {
-            lineBenderElements[i].startTime = startTime;
-            lineBenderElements[i].endTime = endTime;
+            lineBenderElements[i].startLerp = startTime;
+            lineBenderElements[i].endLerp = endTime;
         }
 
     }

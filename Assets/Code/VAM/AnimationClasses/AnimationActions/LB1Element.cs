@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class LB1Element : MonoBehaviour
 {
-    [SerializeField] public float startTime = 1;
-    [SerializeField] public float endTime = 3;
+    [SerializeField] public float startLerp = 0f;
+    [SerializeField] public float endLerp = 1f;
 
     [SerializeField] public Quaternion defaultRotation = Quaternion.identity;
     [SerializeField] public Quaternion targetRotation = Quaternion.identity;
 
     internal void Lerp(float lerp)
-    {        
+    {
+        lerp = (lerp - startLerp) / (endLerp - startLerp);
+
         if (lerp < 0)
             transform.localRotation = defaultRotation;
         else if (lerp > 1)
@@ -35,7 +37,10 @@ public class LB1Element : MonoBehaviour
         defaultRotation = transform.localRotation;
     }
 
-
+    public void SaveTargetRotation()
+    {
+        targetRotation = transform.localRotation;
+    }
 
     public void ComputeTargetRotationAndLength(GameObject targetToConnect, bool isTarget)
     {
@@ -80,6 +85,21 @@ public class LB1Element : MonoBehaviour
         {
             child.transform.localPosition = Vector3.forward * Length;
         });
+    }
+
+    public float GetTotalLength
+    {
+        get
+        {
+            float l = Length;
+            /*if (childSegments == null || childSegments.Count == 0)
+                return l;
+            else
+            {*/
+            childSegments.ForEach((cs) => l += cs.GetTotalLength);
+            return l;
+            //}
+        }
     }
 
     public float Length

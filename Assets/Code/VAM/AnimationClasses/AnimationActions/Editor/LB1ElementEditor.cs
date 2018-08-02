@@ -18,7 +18,7 @@ public class LB1ElementEditor : Editor
         lbe.Length = EditorGUILayout.DelayedFloatField("Length: ", lbe.Length);
         if (GUILayout.Button("Reposition Child Segments")) lbe.RepositionChildSegments();
 
-        
+
         if (GUILayout.Button("Append new segment")) Selection.objects = new GameObject[] { lbe.AppendSegment() };
 
         EditorGUILayout.BeginHorizontal();
@@ -44,6 +44,8 @@ public class LB1ElementEditor : Editor
             lbe.transform.parent.gameObject.GetComponent<LB1Element>().ComputeTargetRotationAndLength(lbe.gameObject, false);
         }
         EditorGUILayout.EndHorizontal();
+        if (GUILayout.Button("Select previous"))
+            Selection.objects = new GameObject[] { lbe.transform.parent.gameObject };
 
         EditorGUILayout.Space();
         GUILayout.TextArea("DO NOT FORGET TO SET MATERIAL BEFORE STARTING!");
