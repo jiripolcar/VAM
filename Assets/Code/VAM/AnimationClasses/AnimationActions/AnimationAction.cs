@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationAction : MonoBehaviour
-{
-    public virtual void SetLerp(float lerp) { }
+{    
+    public void SetLerp(float lerp) { SetLerpTranslated(lerpTranslationCurve.Evaluate(lerp)); }    
     public virtual void Default() { SetLerp(0); }
 
+    protected virtual void SetLerpTranslated(float lerp) { }
+    [SerializeField] protected AnimationCurve lerpTranslationCurve = AnimationCurve.Linear(0, 1, 1, 1);
 
     /*public virtual void Activate(float param1 = 0) { }
     public virtual void Deactivate() { }

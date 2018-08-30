@@ -6,7 +6,7 @@ public class LB1 : AnimationAction
 {
     [SerializeField] public List<LB1Element> lineBenderElements;
 
-    public override void SetLerp(float lerp)
+    protected override void SetLerpTranslated(float lerp)
     {
         lineBenderElements.ForEach((element) => element.Lerp(lerp));
     }

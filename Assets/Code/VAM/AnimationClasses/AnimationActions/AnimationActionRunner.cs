@@ -8,18 +8,20 @@ namespace Animations
     [System.Serializable]
     public class AnimationActionRunner
     {
-        public AnimationAction animationAction;
+        public AnimationAction animationAction;        
         public float startTime = 1;
         public float length = 2;
         public float endTime = 3;
         public bool repeating = false;
-
+        
         public static AnimationActionRunner FromAnimationAction(AnimationAction aa)
         {
             AnimationActionRunner aar = new AnimationActionRunner();
             aar.animationAction = aa;
             return aar;
         }
+
+
 
         public void SetLength(float l)
         {
@@ -44,15 +46,21 @@ namespace Animations
             float lerp = (time - startTime) / length;
             if (lerp > 0 && time < endTime)
             {
+                animationAction.SetLerp(lerp);
+            }
+            else if (time > endTime)
+            {
                 if (repeating)
-                {
                     lerp -= Mathf.Floor(lerp);
-                }
+                else
+                    lerp = 1;
                 animationAction.SetLerp(lerp);
             }
             else
                 animationAction.Default();
         }
+
+        
 
 
     }

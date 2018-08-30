@@ -49,7 +49,7 @@ public class GradientFlasher : AnimationAction
         }
     }
 
-    public override void SetLerp(float lerp)
+    protected override void SetLerpTranslated(float lerp)
     {
         if (lerp > 0 && lerp < 1)
             SetColors(gradient.Evaluate(lerp));
